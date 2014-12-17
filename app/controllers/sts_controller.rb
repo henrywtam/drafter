@@ -1,0 +1,2 @@
+class StsController < ApplicationController
+end

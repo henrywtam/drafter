@@ -1,0 +1,2 @@
+module MtgDraftHelper
+end
