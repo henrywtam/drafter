@@ -11,36 +11,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141217074626) do
+ActiveRecord::Schema.define(version: 20141217232742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "card_decks", force: true do |t|
+    t.integer  "deck_id"
+    t.integer  "card_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "card_drafts", force: true do |t|
+  create_table "card_packs", force: true do |t|
+    t.integer  "pack_id"
+    t.integer  "card_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "cards", force: true do |t|
     t.integer  "st_id"
-    t.integer  "draft_id"
-    t.integer  "deck_id"
-    t.string   "card_type"
+    t.text     "card_type"
     t.string   "card_types"
-    t.string   "colors"
+    t.text     "colors"
     t.string   "multiverseid"
     t.string   "name"
-    t.string   "subtypes"
+    t.text     "subtypes"
     t.string   "rarity"
     t.string   "power"
     t.string   "toughness"
     t.string   "manaCost"
-    t.string   "imageName"
+    t.string   "image_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -51,6 +53,24 @@ ActiveRecord::Schema.define(version: 20141217074626) do
   end
 
   create_table "drafts", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "pack_rounds", force: true do |t|
+    t.integer  "pack_id"
+    t.integer  "round_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "packs", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rounds", force: true do |t|
+    t.integer  "draft_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

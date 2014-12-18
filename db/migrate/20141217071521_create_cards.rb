@@ -12,7 +12,7 @@ class CreateCards < ActiveRecord::Migration
       t.string      :power
       t.string      :toughness
       t.string      :manaCost
-      t.string      :imageName
+      t.string      :image_url
       t.timestamps
     end
   end

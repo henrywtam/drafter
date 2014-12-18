@@ -21,8 +21,8 @@ St.create(
   )
 
 card_counter = 0
-# setData["cards"].count.times do
-5.times do
+card_total = setData["cards"].count
+card_total.times do
   Card.create(
     st_id: 1,
     card_type:    setData["cards"][card_counter]["type"],
@@ -35,7 +35,7 @@ card_counter = 0
     power:        setData["cards"][card_counter]["power"],
     toughness:    setData["cards"][card_counter]["toughness"],
     manaCost:     setData["cards"][card_counter]["manaCost"],
-    imageName:    setData["cards"][card_counter]["imageName"]
+    image_url:    URI.escape('http://mtgimage.com/set/KTK/' + setData["cards"][card_counter]["imageName"] + '.jpg')
     )
   card_counter += 1
 end
