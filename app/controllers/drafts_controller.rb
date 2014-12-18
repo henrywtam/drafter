@@ -4,9 +4,20 @@ class DraftsController < ApplicationController
   end
   def create
     @draft = Draft.create
-    redirect_to edit_draft_path(@draft)
+    @deck = Deck.create
+    redirect_to draft_path(@draft)
   end
-  def edit
+  def show
+    @pick = 0
     @draft = Draft.find(params["id"].to_i)
+    @deck = Deck.find(params["id"].to_i)
+    @round = @draft.rounds[@pick]
+    @pack = @round.packs[@pick]
+  end
+  def update
+    @draft = Draft.find(params["id"].to_i)
+    respond_to do |format|
+      format.json { render "cards" }
+    end
   end
 end
