@@ -22,7 +22,7 @@ class DraftsController < ApplicationController
     CardDeck.create(card_id: @card.id, deck_id: @deck.id)
     @pick = params["pick_id"].to_i
     @round = @draft.rounds[@pick/14]
-    @pack = @round.packs[@pick%7]
+    @pack = @round.packs[@pick%8]
 
     respond_to do |format|
       format.json { render "next.js.erb" }

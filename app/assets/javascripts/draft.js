@@ -15,7 +15,10 @@ var next = function() {
     }
   })
   .done(function(response) {
-    $(".draft-box").append("<h1>hello</h1>");
+    $(".draft-box").empty();
+    for(var i=0;i<response[0].length;i++){
+      render_card(response, response[0][i]);
+    }
     console.log("you done");
     console.log(response);
   })
@@ -23,4 +26,22 @@ var next = function() {
     console.log("you fail");
     console.log(response);
   })
+}
+
+var render_card = function(info, card) {
+  var pick = info[1] + 1
+  var card_id = card.id.toString();
+  var pack_id = (info[3].id%24).toString();
+  var round_id = (info[2].id%3).toString();
+  var draft_id = info[2].draft_id.toString();
+  var location = "/drafts/" + draft_id;
+  var image_url = card.image_url
+  var card_html = "<a href=" + location + ">" +
+                  "<img data-card=" + card_id +
+                  " data-pack=" + pack_id +
+                  " data-round=" + round_id +
+                  " data-draft=" + draft_id +
+                  " data-pick=" + pick +
+                  " class=\"draft-card\" src=" + image_url + " /></a>"
+  $(".draft-box").append(card_html);
 }
