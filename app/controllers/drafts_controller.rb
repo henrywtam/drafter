@@ -15,9 +15,17 @@ class DraftsController < ApplicationController
     @pack = @round.packs[@pick]
   end
   def update
-    @draft = Draft.find(params["id"].to_i)
+    p params
+    @draft = Draft.find(params["draft_id"].to_i)
+    @deck = Deck.find(params["draft_id"].to_i)
+    @card = Card.find(params["card_id"].to_i)
+    CardDeck.create(card_id: @card.id, deck_id: @deck.id)
+    @pick = params["pick_id"].to_i
+    @round = @draft.rounds[@pick/14]
+    @pack = @round.packs[@pick%7]
+
     respond_to do |format|
-      format.json { render "cards" }
+      format.json { render "next.js.erb" }
     end
   end
 end
