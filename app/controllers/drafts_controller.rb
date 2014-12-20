@@ -8,24 +8,50 @@ class DraftsController < ApplicationController
     redirect_to draft_path(@draft)
   end
   def show
-    @pick = 0
-    @draft = Draft.find(params["id"].to_i)
     @deck = Deck.find(params["id"].to_i)
-    @round = @draft.rounds[@pick]
-    @pack = @round.packs[@pick]
+    @pick = @deck.cards.count
+    if @pick >= 42
+      redirect_to deck_path(@deck)
+      return
+    end
+    @draft = Draft.find(params["id"].to_i)
+    @round = @draft.rounds[((@pick-1)/14)]
+    @pack = @round.packs[((@pick-1)%14%8)]
   end
   def update
-    p params
     @draft = Draft.find(params["draft_id"].to_i)
     @deck = Deck.find(params["draft_id"].to_i)
     @card = Card.find(params["card_id"].to_i)
     CardDeck.create(card_id: @card.id, deck_id: @deck.id)
     @pick = params["pick_id"].to_i
-    @round = @draft.rounds[@pick/14]
-    @pack = @round.packs[@pick%8]
-
+    @round = @draft.rounds[((@pick-1)/14)]
+    @pack = @round.packs[((@pick-1)%14%8)]
+    # @round.packs.each do |pack|
+    #   if @pack == pack
+    #     p "here"
+    #     @pack.cards.each do |card|
+    #       p "inside"
+    #       p card
+    #       card.delete
+    #       p "#{card.name} got deleted"
+    #     end
+    #   else
+    #     p "Pack count: #{pack.cards.count}"
+    #     random_card = rand(pack.cards.count-1)
+    #     p random_card
+    #     pack.cards[random_card].destroy
+    #   end
+    # end
+    p "Draft: #{@draft.id}"
+    p "Round: #{((@pick-1)/14)+1}"
+    p "Pack: #{((@pick-1)%14%8)+1}"
+    p "Pick: #{@pick}"
+    if @pick >= 42
+      redirect_to deck_path(@deck)
+      return
+    end
     respond_to do |format|
       format.json { render "next.js.erb" }
     end
-  end
+    end
 end

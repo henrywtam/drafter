@@ -1,9 +1,24 @@
 $( document ).ready(function() {
-  $( document ).on("click",".draft-card",next);
+  $( document ).on("click",".draft-card", next);
 });
 
 var next = function() {
+  if (event.target.dataset.pick === "42"){
+    $.ajax({
+      url: event.currentTarget.documentURI+".json",
+      type: "PUT",
+      data: { draft_id: event.target.dataset.draft,
+              round_id: event.target.dataset.round,
+              pack_id: event.target.dataset.pack,
+              card_id: event.target.dataset.card,
+              pick_id: event.target.dataset.pick
+      }
+    })
+    return;
+  }
+  console.log(event.target.dataset.pick)
   event.preventDefault();
+  console.log(event.target.dataset.pick)
   $.ajax({
     url: event.currentTarget.documentURI+".json",
     type: "PUT",
@@ -45,3 +60,11 @@ var render_card = function(info, card) {
                   " class=\"draft-card\" src=" + image_url + " /></a>"
   $(".draft-box").append(card_html);
 }
+
+// picks 1-14 = round 1, packs 1-8
+// picks 15-28 = round 2, packs 9-16
+// picks 29-42 = round 3, packs 17-24
+
+// round = (pick % 14) + 1
+// pack  = 8*(round-1) + (pick - 14(round-1))
+
