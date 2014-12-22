@@ -1,5 +1,5 @@
 <div class="draft-box">
-  <% @pack.cards.each do |card| %>
-    <a href="/drafts/<%= @draft.id %>"><img data-card="<%= card.id %>" data-pack="<%= @pack.id %>" data-round="<%= @round.id %>" data-draft="<%= @draft.id %>" data-pick="<%= @pick+1 %>"class="draft-card" src="<%= card.image_url %>" /></a>
+  <% @current_pack.cards.each do |card| %>
+    <a href="/drafts/<%= @draft.id %>"><img data-card="<%= card.id %>" data-pack="<%= @current_pack.id %>" data-round="<%= @round.id %>" data-draft="<%= @draft.id %>" data-pick="<%= @pick %>"class="draft-card" src="<%= card.image_url %>" /></a>
   <% end %>
 </div>
