@@ -11,13 +11,13 @@ class DraftsController < ApplicationController
     @deck = Deck.find(params["id"].to_i)
     @pick = @deck.cards.count + 1
     # p "PICK: #{@pick}"
+    @draft = Draft.find(params["id"].to_i)
+    @round = @draft.rounds[((@pick-1)/14)]
+    @current_pack = @round.packs[((@pick-1)%14%8)]
     if @pick > 42
       redirect_to deck_path(@deck)
       return
     end
-    @draft = Draft.find(params["id"].to_i)
-    @round = @draft.rounds[((@pick-1)/14)]
-    @current_pack = @round.packs[((@pick-1)%14%8)]
 
     # pack_ids = []
     # @round.packs.each do |pack|
@@ -32,31 +32,7 @@ class DraftsController < ApplicationController
     # p "current_card_ids: #{current_card_ids}"
   end
   def update
-    @draft = Draft.find(params["draft_id"].to_i)
-    @deck = Deck.find(params["draft_id"].to_i)
-    @card = Card.find(params["card_id"].to_i)
-    CardDeck.create(card_id: @card.id, deck_id: @deck.id)
-    @pick = params["pick_id"].to_i
-    @round = @draft.rounds[((@pick-1)/14)]
-
-    @current_pack = @round.packs[((@pick-1)%14%8)]
-    @next_pack = @round.packs[(@pick%14%8)]
-
-    pack_ids = []
-    @round.packs.each do |pack|
-      pack_ids << pack.id
-    end
-    current_card_ids = []
-    @current_pack.cards.each do |card|
-      current_card_ids << card.id
-    end
-
-    p "current_pack: #{@current_pack.id}"
-    p "next_pack: #{@next_pack.id}"
-    p "pack_ids: #{pack_ids}"
-    p "card: #{@card.id}"
-    p "current_card_ids: #{current_card_ids}"
-
+    define_ajax_vars
     print_status
     @round.packs.each do |pack|
       if pack.id == @current_pack.id
@@ -81,11 +57,34 @@ class DraftsController < ApplicationController
     end
   end
   private
-    def print_status
+    def define_ajax_vars
+      @draft = Draft.find(params["draft_id"].to_i)
+      @deck = Deck.find(params["draft_id"].to_i)
+      @card = Card.find(params["card_id"].to_i)
+      CardDeck.create(card_id: @card.id, deck_id: @deck.id)
+      @pick = params["pick_id"].to_i
+      @round = @draft.rounds[((@pick-1)/14)]
+      @current_pack = @round.packs[((@pick-1)%14%8)]
+      @next_pack = @round.packs[(@pick%14%8)]
+    end
+    def print_ajax_status
+      pack_ids = []
+      @round.packs.each do |pack|
+        pack_ids << pack.id
+      end
+      current_card_ids = []
+      @current_pack.cards.each do |card|
+        current_card_ids << card.id
+      end
       p "Draft: #{@draft.id}"
-      p "Round: #{((@pick-1)/14)+1}"
-      p "Current_Pack: #{((@pick-1)%14%8)}"
-      p "Next_Pack: #{((@pick)%14%8)}"
-      p "Pick: #{@pick}"
+      p "Round: #{@round.id}"
+      p "Round Packs: #{pack_ids}"
+      p "Current Pack: #{@current_pack.id}"
+      p "Next Pack: #{@next_pack.id}"
+      p "Current Pack Cards: #{current_card_ids}"
+      p "Selected Card: #{@card.id}"
     end
 end
+
+
+
