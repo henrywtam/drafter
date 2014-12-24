@@ -7,6 +7,11 @@ class Draft < ActiveRecord::Base
     3.times do
       self.rounds.create
     end
+    self.rounds.each do |round|
+      round.packs.each_with_index do |pack, index|
+        pack.cards -= pack.cards.sample(index)
+      end
+    end
   end
 
 end

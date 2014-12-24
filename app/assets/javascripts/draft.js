@@ -16,9 +16,9 @@ var next = function() {
     })
     return;
   }
-  console.log(event.target.dataset.pick)
+  // console.log(event.target.dataset.pick)
   event.preventDefault();
-  console.log(event.target.dataset.pick)
+  // console.log(event.target.dataset.pick)
   $.ajax({
     url: event.currentTarget.documentURI+".json",
     type: "PUT",
