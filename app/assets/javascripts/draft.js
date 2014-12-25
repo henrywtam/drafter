@@ -30,16 +30,13 @@ var next = function() {
     }
   })
   .done(function(response) {
+    $(".pick").text("Currently on pick #"+(response[1]+1))
     $(".draft-box").empty();
     for(var i=0;i<response[0].length;i++){
       render_card(response, response[0][i]);
     }
-    console.log("you done");
-    console.log(response);
   })
   .fail(function(response) {
-    console.log("you fail");
-    console.log(response);
   })
 }
 

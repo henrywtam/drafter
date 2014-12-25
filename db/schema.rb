@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141217232742) do
+ActiveRecord::Schema.define(version: 20141225065811) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(version: 20141217232742) do
 
   create_table "card_packs", force: true do |t|
     t.integer  "pack_id"
+    t.integer  "card_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "card_pools", force: true do |t|
+    t.integer  "pool_id"
     t.integer  "card_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -48,9 +55,12 @@ ActiveRecord::Schema.define(version: 20141217232742) do
   end
 
   create_table "decks", force: true do |t|
+    t.integer  "pool_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "decks", ["pool_id"], name: "index_decks_on_pool_id", using: :btree
 
   create_table "drafts", force: true do |t|
     t.datetime "created_at"
@@ -68,6 +78,14 @@ ActiveRecord::Schema.define(version: 20141217232742) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "pools", force: true do |t|
+    t.integer  "draft_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pools", ["draft_id"], name: "index_pools_on_draft_id", using: :btree
 
   create_table "rounds", force: true do |t|
     t.integer  "draft_id"

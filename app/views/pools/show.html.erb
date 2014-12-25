@@ -1,0 +1,5 @@
+<h2>Pool</h2>
+
+<% @cards.each do |card| %>
+  <img id="<%= card.id %>"class="pool-card" src="<%= card.image_url %>" />
+<% end %>

@@ -1,4 +1,10 @@
 <h2>DRAFT</h2>
+<% @drafts.each do |draft| %>
+  <div class="draft">
+    <%= link_to "Draft ##{draft.id}", draft_path(draft) %>
+  </div>
+<% end %>
+<p></p>
 <form action="<%= drafts_path %>" method='post'>
-  <input type='submit' value='Start' />
+  <input type='submit' value='New' />
 </form>

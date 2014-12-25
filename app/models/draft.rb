@@ -1,6 +1,6 @@
 class Draft < ActiveRecord::Base
   has_many :rounds
-
+  has_one :pool
   after_save :fill_draft
 
   def fill_draft
